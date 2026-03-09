@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { verifyAdminPassword } from './actions'; // DODANO: Import bezpiecznej funkcji
 
 export default function KartaKlienta() {
   const [user, setUser] = useState<any>(null);
@@ -12,9 +13,6 @@ export default function KartaKlienta() {
   const [adminPassword, setAdminPassword] = useState('');
   const [updateLoading, setUpdateLoading] = useState(false);
   const router = useRouter();
-
-  // TWOJE HASŁO DLA TATY
-  const SECRET_ADMIN_PASSWORD = 'Eden13'; 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +23,6 @@ export default function KartaKlienta() {
       }
       setUser(user);
 
-      // Dodano ?. aby TypeScript nie sypał błędami
       const { data } = await supabase
         .from('profiles')
         .select('visits')
@@ -39,18 +36,20 @@ export default function KartaKlienta() {
   }, [router]);
 
   const handleAddVisit = async () => {
-    if (adminPassword !== SECRET_ADMIN_PASSWORD) {
-      alert('Błędne hasło!');
+    setUpdateLoading(true);
+
+    // ZMIANA: Teraz pytamy serwer, czy hasło jest poprawne
+    const isCorrect = await verifyAdminPassword(adminPassword);
+
+    if (!isCorrect) {
+      alert('Błędne hasło administratora!');
       setAdminPassword('');
+      setUpdateLoading(false);
       return;
     }
 
-    setUpdateLoading(true);
-
-    // Jeśli jest 10, ustaw 0. W innym wypadku dodaj 1.
     const newCount = visits >= 10 ? 0 : visits + 1;
 
-    // Dodano ?. również tutaj
     const { error } = await supabase
       .from('profiles')
       .update({ visits: newCount })
@@ -79,7 +78,7 @@ export default function KartaKlienta() {
   return (
     <main className="min-h-screen w-full flex flex-col items-center bg-[#0f051d] py-8 px-4 text-white font-sans">
       
-      {/* KARTA WIZUALNA */}
+      {/* KARTA WIZUALNA - BEZ ZMIAN */}
       <div className="relative w-full max-w-[450px] aspect-[1.6/1] rounded-3xl overflow-hidden shadow-2xl shadow-purple-900/40 mb-8 border border-white/10">
         <Image 
           src="/kartatlo.png" 
@@ -95,7 +94,6 @@ export default function KartaKlienta() {
             <p className="text-xs font-bold uppercase tracking-[0.3em] opacity-80 mt-1">Karta Lojalnościowa</p>
           </div>
 
-          {/* PIECZĄTKI */}
           <div className="grid grid-cols-5 gap-3 px-2">
             {[...Array(10)].map((_, i) => (
               <div 
@@ -121,7 +119,7 @@ export default function KartaKlienta() {
         </div>
       </div>
 
-      {/* PANEL DLA TATY */}
+      {/* PANEL DLA TATY - BEZ ZMIAN */}
       <div className="w-full max-w-[450px] bg-white/5 border border-white/10 rounded-[2rem] p-6 backdrop-blur-md shadow-inner">
         <div className="text-center mb-6">
           <p className="text-purple-300 text-[10px] font-black uppercase tracking-widest mb-1">Strefa Obsługi</p>
