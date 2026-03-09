@@ -14,7 +14,7 @@ export default function KartaKlienta() {
   const router = useRouter();
 
   // TWOJE HASŁO DLA TATY
-  const SECRET_ADMIN_PASSWORD = 'venus'; 
+  const SECRET_ADMIN_PASSWORD = 'Eden13'; 
 
   useEffect(() => {
     const fetchData = async () => {
