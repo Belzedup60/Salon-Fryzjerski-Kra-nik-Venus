@@ -76,7 +76,7 @@ export default function KartaKlienta() {
   return (
     <main className="min-h-screen w-full flex flex-col items-center bg-[#0f051d] py-6 px-3 text-white font-sans">
       
-      {/* KARTA WIZUALNA - POPRAWIONA RESPONSYWNOŚĆ */}
+      {/* KARTA WIZUALNA */}
       <div className="relative w-full max-w-[400px] aspect-[1.6/1] rounded-3xl overflow-hidden shadow-2xl shadow-purple-900/40 mb-6 border border-white/10">
         <Image 
           src="/kartatlo.png" 
@@ -89,10 +89,10 @@ export default function KartaKlienta() {
         <div className="relative z-10 p-4 sm:p-5 flex flex-col h-full justify-between bg-black/10">
           <div className="text-left">
             <h1 className="text-4xl sm:text-5xl font-black italic tracking-tighter leading-none shadow-black drop-shadow-md">VENUS</h1>
-            <p className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.3em] opacity-80 mt-1">Karta Lojalnościowa</p>
+            {/* TUTAJ ZMIENIONO NAPIS */}
+            <p className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.3em] opacity-80 mt-1">Karta Rabatowa</p>
           </div>
 
-          {/* PIECZĄTKI - TERAZ ZMNIEJSZAJĄ SIĘ NA MAŁYCH EKRANACH */}
           <div className="grid grid-cols-5 gap-2 sm:gap-3 px-1">
             {[...Array(10)].map((_, i) => (
               <div 

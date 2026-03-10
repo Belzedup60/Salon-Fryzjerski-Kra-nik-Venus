@@ -11,7 +11,7 @@ export default function Home() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // DODANE: Stan widoczności hasła
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const handleAuth = async (e: React.FormEvent) => {
@@ -60,7 +60,7 @@ export default function Home() {
   };
 
   return (
-    <main className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#0a0a1a]">
+    <main className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden bg-[#0a0a1a] py-10">
       <div className="absolute inset-0 z-0">
         <Image
           src="/background.png" 
@@ -73,23 +73,37 @@ export default function Home() {
       </div>
 
       <div className="relative z-10 w-full max-w-[380px] px-6 text-center">
-        <h1 className="text-white text-7xl font-black tracking-tighter italic mb-10 drop-shadow-2xl">
+        <h1 className="text-white text-7xl font-black tracking-tighter italic mb-6 drop-shadow-2xl text-center w-full">
           VENUS
         </h1>
 
-        <div className="mb-10">
-          <h2 className="text-white text-2xl font-semibold mb-3 leading-tight">
-            {isRegistering ? 'Załóż swoją kartę' : 'Witamy w Salonie Fryzjerskim Venus'}
+        <div className="mb-8 space-y-3">
+          <h2 className="text-white text-2xl font-semibold leading-tight">
+            {isRegistering ? 'Załóż swoją kartę' : 'Witam w Salonie Fryzjerskim'}
           </h2>
           <p className="text-gray-300 text-sm font-light leading-relaxed opacity-90">
             {isRegistering 
               ? 'Wypełnij dane, aby zacząć zbierać punkty.' 
-              : 'Zaloguj się, aby zobaczyć swoją kartę lojalnościową oraz postępy.'}
+              : 'ul. Adama Mickiewicza 1B, Kraśnik'}
           </p>
+
+          {/* PRZYCISK ZADZWOŃ - Numer zaktualizowany */}
+          {!isRegistering && (
+            <div className="pt-2">
+              <a 
+                href="tel:+48818260237" 
+                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 px-5 py-2.5 rounded-full transition-all active:scale-95 text-sm"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-blue-400">
+                  <path fillRule="evenodd" d="M1.5 4.5a3 3 0 013-3h1.372c.86 0 1.61.586 1.819 1.42l.542 2.17a3.001 3.001 0 01-1.171 3.125l-1.482 1.112a15.047 15.047 0 006.278 6.278l1.112-1.482a3.001 3.001 0 013.125-1.171l2.17.542c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 01-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5z" clipRule="evenodd" />
+                </svg>
+                <span className="font-bold tracking-wide">ZADZWOŃ: 81 826 02 37</span>
+              </a>
+            </div>
+          )}
         </div>
 
         <form onSubmit={handleAuth} className="space-y-4">
-          {/* E-MAIL */}
           <div className="relative">
             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -106,7 +120,6 @@ export default function Home() {
             />
           </div>
 
-          {/* HASŁO Z OCZKIEM */}
           <div className="relative">
             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -114,14 +127,13 @@ export default function Home() {
               </svg>
             </div>
             <input
-              type={showPassword ? "text" : "password"} // Dynamiczna zmiana typu
+              type={showPassword ? "text" : "password"}
               placeholder="Hasło"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full bg-[#e5e7eb] border-none p-4 pl-12 pr-12 rounded-2xl text-gray-800 placeholder:text-gray-500 outline-none shadow-inner text-lg"
             />
-            {/* PRZYCISK OCZKA */}
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
@@ -140,7 +152,6 @@ export default function Home() {
             </button>
           </div>
 
-          {/* POWTÓRZ HASŁO */}
           {isRegistering && (
             <div className="relative">
               <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500">
@@ -168,7 +179,7 @@ export default function Home() {
           </button>
         </form>
 
-        <div className="mt-8 space-y-4">
+        <div className="mt-8 text-center">
           <button 
             onClick={() => {
               setIsRegistering(!isRegistering);
@@ -181,10 +192,6 @@ export default function Home() {
             {isRegistering ? 'Masz już konto? Zaloguj się' : 'Nie masz karty? Zarejestruj się'}
           </button>
         </div>
-      </div>
-
-      <div className="absolute bottom-0 left-0 w-full h-40 opacity-40 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-t from-[#3b82f6]/40 to-transparent blur-3xl"></div>
       </div>
     </main>
   );
